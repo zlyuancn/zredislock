@@ -26,7 +26,7 @@ var (
 )
 
 type Client struct {
-    client redis.Cmdable
+    client redis.UniversalClient
     mx     sync.Mutex
 }
 
@@ -34,7 +34,7 @@ const (
     DefaultObtainLoopWait = 0.1e9
 )
 
-func New(client redis.Cmdable) *Client {
+func New(client redis.UniversalClient) *Client {
     return &Client{client: client}
 }
 
