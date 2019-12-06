@@ -26,7 +26,7 @@ var (
 )
 
 type Client struct {
-    client *redis.Client
+    client redis.Cmdable
     mx     sync.Mutex
 }
 
@@ -34,7 +34,7 @@ const (
     DefaultObtainLoopWait = 0.1e9
 )
 
-func New(client *redis.Client) *Client {
+func New(client redis.Cmdable) *Client {
     return &Client{client: client}
 }
 
@@ -56,7 +56,7 @@ func (m *Client) Obtain(key string, ttl int64, timeout time.Duration) (*Lock, er
     defer timer.Stop()
 
     ctx := context.Background()
-    cancel := func(){}
+    cancel := func() {}
     if timeout > 0 {
         ctx, cancel = context.WithTimeout(ctx, timeout)
     }
